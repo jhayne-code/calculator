@@ -1,0 +1,259 @@
+/* ==========================================================================
+   Balanced Pill-Style Mobile Calculator
+   - Perfectly balanced "Goldilocks" size: Not too big/wide, not too little/small
+   - Handheld smartphone proportions (Width: 330px, Button height: 54px)
+   - The Calculator: Deep OLED Black chassis with dark pill buttons & orange operators
+   - The Webpage Background: Pure Clean White (#ffffff)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Root Variables & Balanced Sizing
+   -------------------------------------------------------------------------- */
+:root {
+    /* Page & Calculator Backgrounds */
+    --page-bg: #ffffff;              /* Pure white webpage background */
+    --calc-bg: #000000;              /* OLED black calculator chassis */
+    --calc-border: #1c1c1f;          /* Subtle phone bezel edge */
+
+    /* Typography */
+    --display-text: #ffffff;
+    --display-placeholder: rgba(255, 255, 255, 0.4);
+    --btn-text-white: #ffffff;
+
+    /* Button Colors (Matching Uploaded Screenshot) */
+    --btn-num-bg: #2d2d2f;
+    --btn-num-hover: #3e3e42;
+    --btn-num-active: #1f1f21;
+
+    --btn-action-bg: #464648;
+    --btn-action-hover: #56565a;
+    --btn-action-active: #38383a;
+
+    --btn-operator-bg: #f59b38;
+    --btn-operator-hover: #ffa94a;
+    --btn-operator-active: #df8725;
+
+    /* Balanced "Just Right" Sizing (Not too big, not too little) */
+    --calc-max-width: 330px;         /* Natural handheld phone width */
+    --calc-radius: 36px;
+    --btn-radius: 9999px;            /* Sleek horizontal capsule / pill shape */
+    --btn-height: 54px;              /* Comfortable, balanced button height */
+    --grid-gap: 10px;                /* Natural, balanced touch spacing */
+    --calc-shadow: 0 18px 45px rgba(0, 0, 0, 0.22), 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset & Global Layout
+   -------------------------------------------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+                 "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+body {
+    min-height: 100vh;
+    min-height: 100dvh;             /* Dynamic viewport height for mobile browsers */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--page-bg);
+    color: var(--display-text);
+    padding: 16px;
+}
+
+/* Centering wrapper */
+.calculator-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   3. Balanced Calculator Chassis (330px Width)
+   -------------------------------------------------------------------------- */
+.calculator {
+    width: 100%;
+    max-width: var(--calc-max-width);
+    margin: 0 auto;
+    background-color: var(--calc-bg);
+    border-radius: var(--calc-radius);
+    padding: 26px 16px 20px 16px;
+    box-shadow: var(--calc-shadow);
+    border: 2.5px solid var(--calc-border);
+    display: flex;
+    flex-direction: column;
+}
+
+/* --------------------------------------------------------------------------
+   4. Balanced Display Screen
+   -------------------------------------------------------------------------- */
+.display {
+    width: 100%;
+    height: 80px;
+    background-color: transparent;
+    color: var(--display-text);
+    border: none;
+    outline: none;
+    padding: 8px 12px 14px 12px;
+    font-size: clamp(2.4rem, 8vw, 3.2rem);
+    font-weight: 300;
+    letter-spacing: -1.2px;
+    text-align: right;
+    box-sizing: border-box;
+    overflow-x: auto;
+    white-space: nowrap;
+
+    /* High contrast rendering */
+    opacity: 1;
+    -webkit-text-fill-color: var(--display-text);
+    cursor: default;
+}
+
+.display::placeholder {
+    color: var(--display-placeholder);
+    font-weight: 300;
+}
+
+/* --------------------------------------------------------------------------
+   5. Keypad Grid Layout (4 Columns)
+   -------------------------------------------------------------------------- */
+.keys {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--grid-gap);
+    width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   6. Capsule / Pill Button Base
+   -------------------------------------------------------------------------- */
+.button {
+    width: 100%;
+    height: var(--btn-height);
+    border-radius: var(--btn-radius); /* Oblong pill shape */
+    border: none;
+    color: var(--btn-text-white);
+    font-size: clamp(1.25rem, 4vw, 1.45rem);
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: background-color 0.14s ease, transform 0.08s ease;
+}
+
+/* Button Active Press Animation */
+.button:active {
+    transform: scale(0.95);
+}
+
+/* Focus Indicator for Accessibility */
+.button:focus-visible {
+    outline: 2px solid var(--btn-operator-bg);
+    outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   7. Button Themes (Matching Uploaded Screenshot)
+   -------------------------------------------------------------------------- */
+
+/* A. Number Keys (7, 8, 9, 4, 5, 6, 1, 2, 3, +/-, 0, .) */
+.btn-number {
+    background-color: var(--btn-num-bg);
+}
+
+.btn-number:hover {
+    background-color: var(--btn-num-hover);
+}
+
+.btn-number:active {
+    background-color: var(--btn-num-active);
+}
+
+/* B. Top Row Function Keys (⌫, AC, %) */
+.btn-action {
+    background-color: var(--btn-action-bg);
+    font-weight: 500;
+}
+
+.btn-action:hover {
+    background-color: var(--btn-action-hover);
+}
+
+.btn-action:active {
+    background-color: var(--btn-action-active);
+}
+
+/* Backspace SVG Icon */
+.btn-backspace svg {
+    display: block;
+    width: 20px;
+    height: 20px;
+    stroke: #ffffff;
+}
+
+/* Plus/Minus Sign Button */
+.btn-plus-minus {
+    font-size: clamp(1.05rem, 3.4vw, 1.25rem);
+}
+
+/* C. Operator Keys (÷, ×, −, +, =) */
+.btn-operator {
+    background-color: var(--btn-operator-bg);
+    font-weight: 500;
+    font-size: clamp(1.45rem, 4.8vw, 1.8rem);
+    padding-bottom: 2px;
+}
+
+.btn-operator:hover {
+    background-color: var(--btn-operator-hover);
+}
+
+.btn-operator:active {
+    background-color: var(--btn-operator-active);
+}
+
+/* --------------------------------------------------------------------------
+   8. Responsive Fine-Tuning for Smaller Screens
+   -------------------------------------------------------------------------- */
+@media (max-width: 360px) {
+    :root {
+        --calc-max-width: 300px;
+        --calc-radius: 30px;
+        --btn-height: 48px;
+        --grid-gap: 8px;
+    }
+
+    body {
+        padding: 8px;
+    }
+
+    .calculator {
+        padding: 20px 12px 16px 12px;
+    }
+
+    .display {
+        height: 70px;
+        font-size: 2.6rem;
+    }
+
+    .button {
+        font-size: 1.15rem;
+    }
+
+    .btn-operator {
+        font-size: 1.35rem;
+    }
+
+    .btn-backspace svg {
+        width: 18px;
+        height: 18px;
+    }
+}
